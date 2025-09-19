@@ -210,7 +210,9 @@ class OutcomeMLP(OutcomeMLPBase):
         hidden: Iterable[int],
         lr: float,
         weight_decay: float = 0,
+        ################################################### 默认连续outcome ###############################################
         binary_outcome: bool = False,
+        #############################################################################################################
         add_input_layer_batchnorm: bool = False,
         add_hidden_layer_batchnorm: bool = False,
         activations: Iterable[nn.Module] = [nn.GELU()]
@@ -227,7 +229,7 @@ class OutcomeMLP(OutcomeMLPBase):
             activations=activations
         )
 
-########################################################## 连续outcome ############################################################
+########################################################## 连续outcome求E[g(X)∣Z,W] ############################################################
     def forward(  # type: ignore
         self,
         ivs: torch.Tensor,
@@ -404,7 +406,9 @@ def train_outcome_model(
     add_input_batchnorm: bool,
     max_epochs: int,
     accelerator: Optional[str] = None,
+    ############################################默认outcome数据是连续的##############################################
     binary_outcome: bool = False,
+    ###################################################################################################
     wandb_project: Optional[str] = None
 ) -> Tuple[Any, float]:
     info("Training outcome model.")
@@ -444,10 +448,10 @@ def fit_quantile_iv(
     output_dir: str = DEFAULTS["output_dir"],  # type: ignore
     validation_proportion: float = DEFAULTS["validation_proportion"],  # type: ignore # noqa: E501
     fast: bool = False,
-    ##############################  默认outcome数据是连续 ###############################################
+    ##############################  默认outcome数据是连续 #######################################################################
     binary_outcome: bool = False,
 
-    ##################################################################################################
+    ###############################################################################################################################
     resample: bool = False,
     nmqn: bool = False,
     nmqn_penalty_lambda: Optional[float] = DEFAULTS["nmqn_penalty_lambda"],  # type: ignore # noqa: E501
